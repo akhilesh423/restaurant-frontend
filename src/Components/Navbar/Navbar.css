@@ -1,17 +1,20 @@
 .navbar-bg {
     width: 100%;
-    max-width: 1200px;
-    /* Limit menu width to 1200px */
+    max-width: 900px;
     margin: 0 auto;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
 }
 
-
 .navbar-head {
-    font-family: "Roboto";
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 600;
     font-style: italic;
-    padding-left: 5px;
-    color: #bf6f7f;
-    /* color: rgb(236 72 153); */
+    color: #4CAF50;
+    margin: 0;
 }
