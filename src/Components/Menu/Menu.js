@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./Menu.css";
-import foodImage from "../Assests/foodImg.jpg";
 import MenuItems from "../MenuItems/MenuItems";
+import { IoLocationSharp } from "react-icons/io5";
+
 
 export default function Menu() {
     const [foodMenu, setFoodMenu] = useState(MenuItems);
@@ -10,10 +12,15 @@ export default function Menu() {
     const [showQuantityButtons, setShowQuantityButtons] = useState([]);
     const [quantity, setQuantity] = useState({});
 
+    const navigate = useNavigate()
 
     const handleCategoryClick = (category) => {
         setCategory(category);
     };
+
+    const checkout = () => {
+        navigate("/cart")
+    }
 
     const handleAddToCart = (item) => {
         const newCartItems = [...cartItems, item];
@@ -79,26 +86,47 @@ export default function Menu() {
 
                             <div className="food-details">
                                 <h3 className="food-name">{item.itemName}</h3>
-                                <p className="food-price">Price: ${item.itemPrice}</p>
+                                <p className="food-price">Price: ₹{item.itemPrice}</p>
                                 <p className="food-description">{item.description}</p>
                             </div>
                         </div>
                         {index !== filteredFoodMenu.length - 1 && <hr className="food-item-divider" />} {/* Render the line if not the last item */}
                     </div>
                 ))}
+                <div className="disclaminer-section">
+                    <h4 className="disclaimer">Our Philosophy:</h4>
+                    <ul className="disclaimer-ul">
+                        <li className="disclaimer-points">Indulge in more than just food; savor an experience.</li>
+                        <li className="disclaimer-points">Nourish your body and soul with every bite.</li>
+                        <li className="disclaimer-points">Discover the joy of culinary connection; where every dish unites.</li>
+                    </ul>
+                    <hr class="disclaimer-line"></hr>
+                    <h2 className="disclaimer">Bling n Bliss</h2>
+                    <div style={{ display: "flex", alignItems: "center", paddingLeft: "8px" }}>
+                        <span><IoLocationSharp style={{ fontSize: "14px", paddingRight: "8px", marginTop: "5px" }} /></span>
+                        <p className="disclaimer-address" style={{ marginBottom: "0px" }}> Kompally, Kaziguda, Hyderabad, Telangana 500100</p>
+                    </div>
+                    <p className="disclaimer-address address">Call: +91 8121697022</p>
+                    <p className="disclaimer-address address">Email: blingnbliss1@gmail.com</p>
+                    <br />
+                    <p className="disclaimer-address" style={{ textAlign: "center" }}>Developed by @Akhil</p>
+                </div>
+
             </div>
             {cartItems.length > 0 && (
                 <div className="cart-notification">
                     <div className="cart-item-details">
                         <p className="cart-item-name">2 ITEMS</p>
-                        <p className="cart-item-price">$259</p>
+                        <p className="cart-item-price">₹259</p>
                     </div>
                     <div>
-                        <button className="checkout-button">Checkout</button>
+                        <button onClick={checkout} className="checkout-button">Checkout</button>
                     </div>
 
                 </div>
             )}
+
+
         </div>
     );
 }

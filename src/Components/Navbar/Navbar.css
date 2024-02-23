@@ -12,9 +12,9 @@
 }
 
 .navbar-head {
+    font-family: 'Dancing Script', cursive;
     font-size: 28px;
     font-weight: 600;
-    font-style: italic;
     color: #4CAF50;
     margin: 0;
 }

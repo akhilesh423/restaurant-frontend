@@ -1,0 +1,325 @@
+.add-to-cart-button {
+    text-align: center;
+    color: #4CAF50;
+    font-weight: 700;
+    font-size: 14px;
+    border: none;
+    background-color: transparent;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid #D3D3D3;
+    color: #4CAF50;
+    width: 80px;
+    height: 28px;
+    border-radius: 8px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cart-page {
+    background-color: #f8f8f8;
+    min-height: 100vh;
+    padding: 15px;
+}
+
+
+.cart-orders {
+    background-color: white;
+    border-radius: 14px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-top: 60px;
+}
+
+.orders-heading {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    font-family: "Roboto", sans-serif;
+}
+
+.food-item-name {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-family: "Roboto", sans-serif;
+    color: #333333;
+}
+
+.food-item-price {
+    font-size: 13px;
+    color: #444;
+    margin-top: auto;
+}
+
+.dynamic-price {
+    align-self: flex-end;
+    margin-top: auto;
+    padding-top: 2px;
+    font-size: 12px;
+    margin-right: 3px;
+}
+
+.button-price-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 32px;
+}
+
+.veg-icon,
+.non-veg-icon {
+    display: inline-block;
+    width: 10px;
+    /* Adjust size as needed */
+    height: 10px;
+    /* Adjust size as needed */
+    border: 1px solid;
+    /* Border color will be overridden based on the class */
+    margin-right: 5px;
+    /* Add some spacing between icon and food item name */
+    position: relative;
+    /* Positioning for the dot */
+}
+
+.veg-icon::after {
+    content: "";
+    /* Create empty content */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    /* Adjust size as needed */
+    height: 6px;
+    /* Adjust size as needed */
+    background-color: green;
+    /* Green dot */
+    border-radius: 50%;
+    /* Circular shape */
+}
+
+.non-veg-icon::after {
+    content: "";
+    /* Create empty content */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    /* Adjust size as needed */
+    height: 6px;
+    /* Adjust size as needed */
+    background-color: maroon;
+    /* Green dot */
+    border-radius: 50%;
+    /* Circular shape */
+}
+
+.veg-icon {
+    border-color: green;
+    /* Green border for veg icon */
+}
+
+.non-veg-icon {
+    border-color: maroon;
+    /* Red border for non-veg icon */
+}
+
+
+.food-description {
+    font-size: 12px;
+    color: #999999;
+    font-family: "Roboto", sans-serif;
+    line-height: normal;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    margin-top: auto;
+}
+
+.dotted-line {
+    border: none;
+    border-top: 1px dotted #ccc;
+    margin: 10px 0;
+}
+
+.display-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.display-section p {
+    font-size: 15px;
+    font-weight: normal;
+    font-family: "Roboto", sans-serif;
+    color: #333333;
+}
+
+
+.display-section p {
+    font-size: 15px;
+    font-weight: normal;
+    font-family: "Roboto", sans-serif;
+    color: #333333;
+}
+
+
+.input-block {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #999999;
+    /* Border bottom line */
+    outline: none;
+    background-color: transparent;
+    font-size: 15px;
+    color: grey;
+    /* Font color grey */
+    font-family: "Roboto", sans-serif;
+    line-height: normal;
+}
+
+.input-block input::placeholder {
+    font-size: 10px;
+    /* Adjust font size as needed */
+}
+
+.display-section button {
+    border: none;
+    background-color: transparent;
+    font-size: 15px;
+}
+
+.input-container {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.cart-navbar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    transition: background-color 0.3s ease;
+    height: 60px;
+    padding-left: 15px;
+    /* Smooth transition for background color change */
+}
+
+.cart-navbar.scrolled {
+    background-color: white;
+    /* Change background color to white when scrolled */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Optional: Add a shadow when scrolled */
+}
+
+.food-cart {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    font-family: "Roboto", sans-serif;
+    margin-left: 5px;
+}
+
+.place-order-button {
+    background-color: #4CAF50;
+    color: #fff;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    position: fixed;
+    bottom: 0;
+    width: 92%;
+    margin-bottom: 10px;
+    cursor: pointer;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.place-order-button:hover {
+    background-color: #45a049;
+}
+
+.modal-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+
+}
+
+.modal-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.modal-form select,
+.modal-form input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.modal-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-form button:hover {
+    background-color: #45a049;
+}
+
+.modal-form button:focus {
+    outline: none;
+}
+
+.modal-form select:focus,
+.modal-form input[type="text"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px #4CAF50;
+}
+
+.back-button {
+    background-color: transparent;
+    border: none;
+}

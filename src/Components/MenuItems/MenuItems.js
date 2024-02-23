@@ -1,4 +1,9 @@
 import foodImage from "../Assests/foodImg.jpg";
+import cake from "../Assests/christmas-cake.webp"
+import soup from "../Assests/soup.jpg"
+import drinks from "../Assests/drinks.jpg"
+import biryani from "../Assests/biryani.jpg"
+import pizza from "../Assests/pizza.webp"
 
 const MenuItems = [
     {
@@ -7,7 +12,7 @@ const MenuItems = [
         itemPrice: 299,
         itemName: "Garlic Bread",
         description: "Toasted bread with garlic and herb butter",
-        image: foodImage
+        image: cake
     },
     {
         id: 2,
@@ -15,7 +20,7 @@ const MenuItems = [
         itemPrice: 249,
         itemName: "Bruschetta",
         description: "Toasted bread topped with tomatoes, basil, and olive oil",
-        image: foodImage
+        image: soup
     },
     {
         id: 3,
@@ -23,7 +28,7 @@ const MenuItems = [
         itemPrice: 349,
         itemName: "Stuffed Mushrooms",
         description: "Mushroom caps filled with cheese and herbs, baked to perfection",
-        image: foodImage
+        image: drinks
     },
     {
         id: 4,
@@ -31,7 +36,7 @@ const MenuItems = [
         itemPrice: 399,
         itemName: "Chicken Wings",
         description: "Crispy chicken wings tossed in BBQ sauce",
-        image: foodImage
+        image: biryani
     },
     {
         id: 5,
@@ -39,7 +44,7 @@ const MenuItems = [
         itemPrice: 399,
         itemName: "Caprese Salad",
         description: "Fresh tomatoes, mozzarella cheese, basil, and balsamic glaze",
-        image: foodImage
+        image: pizza
     },
     {
         id: 6,
@@ -55,7 +60,7 @@ const MenuItems = [
         itemPrice: 299,
         itemName: "Mozzarella Sticks",
         description: "Deep-fried breaded mozzarella cheese sticks, served with marinara sauce",
-        image: foodImage
+        image: cake
     },
     {
         id: 8,
@@ -79,7 +84,7 @@ const MenuItems = [
         itemPrice: 549,
         itemName: "Grilled Salmon",
         description: "Grilled salmon fillet served with lemon butter sauce",
-        image: foodImage
+        image: cake
     },
     {
         id: 11,
@@ -127,7 +132,7 @@ const MenuItems = [
         itemPrice: 269,
         itemName: "Minestrone Soup",
         description: "Italian-style vegetable soup with pasta and beans",
-        image: foodImage
+        image: cake
     },
     {
         id: 17,
@@ -143,7 +148,7 @@ const MenuItems = [
         itemPrice: 249,
         itemName: "New York Cheesecake",
         description: "Classic creamy cheesecake with graham cracker crust",
-        image: foodImage
+        image: biryani
     },
     {
         id: 19,
@@ -151,7 +156,7 @@ const MenuItems = [
         itemPrice: 179,
         itemName: "Tiramisu",
         description: "Italian dessert made with layers of coffee-soaked ladyfingers and mascarpone cheese",
-        image: foodImage
+        image: drinks
     },
     {
         id: 20,
@@ -167,7 +172,7 @@ const MenuItems = [
         itemPrice: 99,
         itemName: "Iced Coffee",
         description: "Chilled coffee served with ice cubes",
-        image: foodImage
+        image: drinks
     },
     {
         id: 22,
@@ -175,7 +180,7 @@ const MenuItems = [
         itemPrice: 149,
         itemName: "Mango Smoothie",
         description: "Refreshing smoothie made with fresh mangoes and yogurt",
-        image: foodImage
+        image: pizza
     },
     {
         id: 23,
@@ -191,7 +196,7 @@ const MenuItems = [
         itemPrice: 129,
         itemName: "Mojito",
         description: "Classic cocktail made with rum, mint, lime juice, and soda water",
-        image: foodImage
+        image: drinks
     }
 ];
 
