@@ -1,58 +1,105 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import "./Menu.css";
-import MenuItems from "../MenuItems/MenuItems";
 import { IoLocationSharp } from "react-icons/io5";
 
-
 export default function Menu() {
-    const [foodMenu, setFoodMenu] = useState(MenuItems);
+    const [foodMenu, setFoodMenu] = useState([]);
     const [category, setCategory] = useState("All");
     const [cartItems, setCartItems] = useState([]);
-    const [showQuantityButtons, setShowQuantityButtons] = useState([]);
     const [quantity, setQuantity] = useState({});
+    const [loading, setLoading] = useState(true);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("https://bling-bliss.onrender.com/user/items");
+                const data = await response.json();
+                const formattedData = data.map(item => ({
+                    id: item._id,
+                    name: item.itemName,
+                    category: item.itemCategory,
+                    description: item.itemDescription,
+                    image: item.itemImage,
+                    price: item.itemPrice,
+                    type: item.itemType,
+                    createdAt: item.createdAt,
+                    updatedAt: item.updatedAt,
+                    quantity: 0
+                }));
+
+                setFoodMenu(formattedData);
+                setLoading(false);
+            } catch (error) {
+                console.log(error);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleCategoryClick = (category) => {
         setCategory(category);
     };
 
     const checkout = () => {
-        navigate("/cart")
-    }
-
-    const handleAddToCart = (item) => {
-        const newCartItems = [...cartItems, item];
-        setCartItems(newCartItems);
-        setShowQuantityButtons([...showQuantityButtons, item.id]);
-        setQuantity({ ...quantity, [item.id]: 1 });
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        navigate("/cart");
     };
 
+    const handleAddToCart = (item) => {
+        const index = cartItems.findIndex(cartItem => cartItem.id === item.id);
+        if (index !== -1) {
+            const updatedCartItems = [...cartItems];
+            updatedCartItems[index].quantity += 1;
+            setCartItems(updatedCartItems);
+        } else {
+            setCartItems([...cartItems, { ...item, quantity: 1 }]);
+            setQuantity({ ...quantity, [item.id]: 1 });
+        }
+    };
 
     const handleIncrement = (id) => {
         const newQuantity = { ...quantity };
         newQuantity[id] = (newQuantity[id] || 0) + 1;
         setQuantity(newQuantity);
-    };
 
-    const handleDecrement = (id) => {
-        if (quantity[id] > 0) {
-            setQuantity({ ...quantity, [id]: quantity[id] - 1 });
-            if (quantity[id] === 1) {
-                setShowQuantityButtons(showQuantityButtons.filter(itemId => itemId !== id));
-            }
+        const index = cartItems.findIndex(item => item.id === id);
+        if (index !== -1) {
+            const updatedCartItems = [...cartItems];
+            updatedCartItems[index].quantity += 1;
+            setCartItems(updatedCartItems);
         }
     };
 
+    const handleDecrement = (id) => {
+        const newQuantity = { ...quantity };
+        newQuantity[id] = (newQuantity[id] || 0) - 1;
+        if (newQuantity[id] < 0) {
+            newQuantity[id] = 0;
+        }
+        setQuantity(newQuantity);
 
-    console.log(cartItems)
+        const index = cartItems.findIndex(item => item.id === id);
+        if (index !== -1 && cartItems[index].quantity > 0) {
+            const updatedCartItems = [...cartItems];
+            updatedCartItems[index].quantity -= 1;
+            if (updatedCartItems[index].quantity === 0) {
+                updatedCartItems.splice(index, 1);
+            }
+            setCartItems(updatedCartItems);
+        }
+    };
 
-    const uniqueCategories = Array.from(new Set(MenuItems.map(item => item.category)));
+    const uniqueCategories = Array.from(new Set(foodMenu.map(item => item.category)));
     const filteredFoodMenu = category === "All" ? foodMenu : foodMenu.filter(item => item.category === category || category === "All");
 
     return (
         <div className="menu-container">
+            {loading && <div className="loader"></div>}
             <div className="category-container">
                 <li>
                     <button className="category-button" onClick={() => handleCategoryClick("All")}>All</button>
@@ -65,33 +112,32 @@ export default function Menu() {
             </div>
             <div className={`fooditems-container ${category !== 'All' && 'hidden'}`}>
                 {filteredFoodMenu.map((item, index) => (
-                    <div key={index} >
+                    <div key={item.id}>
                         <div className="food-item-card">
                             <div className="food-image-container">
-                                <img className="food-image" src={item.image} alt={item.itemName} />
+                                <img className="food-image" src={item.image} alt={item.name} />
                                 <div className="button-container">
-                                    {showQuantityButtons.includes(item.id) ? (
+                                    {cartItems.some(cartItem => cartItem.id === item.id) ? (
                                         <>
-                                            <button className="add-to-cart-button" onClick={handleDecrement}>-</button>
+                                            <button className="add-to-cart-button" onClick={() => handleDecrement(item.id)}>-</button>
                                             <span className="quantity">{quantity[item.id]}</span>
-                                            <button className="add-to-cart-button" onClick={handleIncrement}>+</button>
-
+                                            <button className="add-to-cart-button" onClick={() => handleIncrement(item.id)}>+</button>
                                         </>
                                     ) : (
                                         <button className="add-to-cart-button" onClick={() => handleAddToCart(item)}>ADD</button>
                                     )}
-
                                 </div>
                             </div>
-
                             <div className="food-details">
-                                <h3 className="food-name">{item.itemName}</h3>
-                                <p className="food-price">Price: ₹{item.itemPrice}</p>
+                                <h3 className="food-name">{item.name}</h3>
+                                <p className="food-price">Price: ₹{item.price}</p>
                                 <p className="food-description">{item.description}</p>
                             </div>
                         </div>
-                        {index !== filteredFoodMenu.length - 1 && <hr className="food-item-divider" />} {/* Render the line if not the last item */}
+                        {index !== filteredFoodMenu.length - 1 && <hr className="food-item-divider" />}
+
                     </div>
+
                 ))}
                 <div className="disclaminer-section">
                     <h4 className="disclaimer">Our Philosophy:</h4>
@@ -100,7 +146,7 @@ export default function Menu() {
                         <li className="disclaimer-points">Nourish your body and soul with every bite.</li>
                         <li className="disclaimer-points">Discover the joy of culinary connection; where every dish unites.</li>
                     </ul>
-                    <hr class="disclaimer-line"></hr>
+                    <hr className="disclaimer-line" />
                     <h2 className="disclaimer">Bling n Bliss</h2>
                     <div style={{ display: "flex", alignItems: "center", paddingLeft: "8px" }}>
                         <span><IoLocationSharp style={{ fontSize: "14px", paddingRight: "8px", marginTop: "5px" }} /></span>
@@ -111,22 +157,18 @@ export default function Menu() {
                     <br />
                     <p className="disclaimer-address" style={{ textAlign: "center" }}>Developed by @Akhil</p>
                 </div>
-
             </div>
             {cartItems.length > 0 && (
                 <div className="cart-notification">
                     <div className="cart-item-details">
-                        <p className="cart-item-name">2 ITEMS</p>
-                        <p className="cart-item-price">₹259</p>
+                        <p className="cart-item-name">{cartItems.length} ITEMS</p>
+                        <p className="cart-item-price">₹{cartItems.reduce((total, item) => total + (item.price * item.quantity), 0)}</p>
                     </div>
                     <div>
                         <button onClick={checkout} className="checkout-button">Checkout</button>
                     </div>
-
                 </div>
             )}
-
-
         </div>
     );
 }

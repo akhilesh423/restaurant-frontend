@@ -44,6 +44,7 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     padding: 15px;
     margin-top: 60px;
+    margin-bottom: 100px;
 }
 
 .orders-heading {
@@ -322,4 +323,38 @@
 .back-button {
     background-color: transparent;
     border: none;
+}
+
+/* Cart.css */
+
+/* Container for total items and total price */
+.cart-totals {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style for each section (total items and total price) */
+.totals-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Style for label (Total items and Total price) */
+.totals-label {
+    font-size: 15px;
+    font-weight: normal;
+    font-family: "Roboto", sans-serif;
+    color: #333333;
+}
+
+/* Style for value (Number of items and Price) */
+.totals-value {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    font-family: "Roboto", sans-serif;
+    margin-left: 5px;
+
 }

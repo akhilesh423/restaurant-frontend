@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import foodImage from "../Assests/foodImg.jpg";
 import { IoIosArrowForward, IoMdArrowBack } from "react-icons/io";
 import { GoArrowLeft } from "react-icons/go";
 import 'react-responsive-modal/styles.css';
@@ -8,34 +7,33 @@ import { useNavigate } from "react-router-dom";
 import "./Cart.css";
 
 export default function Cart() {
-    const foodOrders = [
-        {
-            id: 1,
-            category: "Starters",
-            itemPrice: 299,
-            itemName: "Garlic Bread",
-            description: "Toasted bread with garlic and herb butter",
-            image: foodImage,
-            isVeg: true
-        },
-        {
-            id: 2,
-            category: "Starters",
-            itemPrice: 249,
-            itemName: "Bruschetta",
-            description: "Toasted bread topped with tomatoes, basil, and olive oil",
-            image: foodImage,
-            isVeg: false
-        }
-    ];
-
-    const [orders, setOrders] = useState(foodOrders);
+    const [orders, setOrders] = useState([]);
     const [showTab, setShowTab] = useState(false);
     const [instructions, setInstructions] = useState("");
     const [isScrolled, setIsScrolled] = useState(false);
     const [open, setOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [totalItems, setTotalItems] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        const cartItemsFromStorage = localStorage.getItem('cartItems');
+        if (cartItemsFromStorage) {
+            setOrders(JSON.parse(cartItemsFromStorage));
+        }
+    }, []);
+
+    useEffect(() => {
+        let itemsCount = 0;
+        let totalPrice = 0;
+        orders.forEach(order => {
+            itemsCount += order.quantity;
+            totalPrice += order.price * order.quantity;
+        });
+        setTotalItems(itemsCount);
+        setTotalPrice(totalPrice);
+    }, [orders]);
 
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
@@ -59,12 +57,35 @@ export default function Cart() {
     };
 
     const handleConfirm = () => {
-        // Handle confirm action here
         console.log('Selected option:', selectedOption);
         console.log('Phone number:', phoneNumber);
+        onCloseModal()
+
     };
 
+    const handleBackButton = () => {
+        navigate("/")
+    }
+
+    const handleQuantityChange = (id, increment) => {
+        const updatedOrders = orders.map(order => {
+            if (order.id === id) {
+                return {
+                    ...order,
+                    quantity: increment ? order.quantity + 1 : order.quantity - 1
+                };
+            }
+            return order;
+        });
+        setOrders(updatedOrders.filter(order => order.quantity > 0));
+    }
+
     useEffect(() => {
+        const cartItemsFromStorage = localStorage.getItem('cartItems');
+        if (cartItemsFromStorage) {
+            setOrders(JSON.parse(cartItemsFromStorage));
+        }
+
         const handleScroll = () => {
             if (window.scrollY > 0) {
                 setIsScrolled(true);
@@ -78,12 +99,7 @@ export default function Cart() {
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
-    }, [isScrolled]);
-
-    const handleBackButton = () => {
-        navigate("/")
-    }
-
+    }, []);
 
     return (
         <>
@@ -99,17 +115,17 @@ export default function Cart() {
                             <div className="order-item">
                                 <div>
                                     <h1 className="food-item-name">
-                                        <span className={eachItem.isVeg ? "veg-icon" : "non-veg-icon"}></span>
-                                        {eachItem.itemName}</h1>
-                                    <p className="food-item-price">₹{eachItem.itemPrice}</p>
+                                        {/* <span className={eachItem.type ? "veg-icon" : "non-veg-icon"}></span> */}
+                                        {eachItem.name}</h1>
+                                    <p className="food-item-price">₹{eachItem.price}</p>
                                 </div>
                                 <div className="button-price-container">
                                     <div className="button-container">
-                                        <button className="add-to-cart-button">-</button>
-                                        <span className="quantity">1</span>
-                                        <button className="add-to-cart-button">+</button>
+                                        <button className="add-to-cart-button" onClick={() => handleQuantityChange(eachItem.id, false)}>-</button>
+                                        <span className="quantity">{eachItem.quantity}</span>
+                                        <button className="add-to-cart-button" onClick={() => handleQuantityChange(eachItem.id, true)}>+</button>
                                     </div>
-                                    <p className="food-item-price dynamic-price">₹356</p>
+                                    <p className="food-item-price dynamic-price">{eachItem.price * eachItem.quantity}</p>
                                 </div>
                             </div>
                         </div>
@@ -130,6 +146,16 @@ export default function Cart() {
                                 <input className="input-block " placeholder="Start typing..." type="textarea" rows={20} value={instructions} onChange={handleInputChange} />
                             </div>
                         )}
+                    </div>
+                    <hr className="dotted-line" />
+                    <div className="totals-section">
+                        <p className="totals-label">Total items:</p>
+                        <p className="totals-value">{totalItems}</p>
+                    </div>
+                    <hr className="dotted-line" />
+                    <div className="totals-section">
+                        <p className="totals-label">Total price:</p>
+                        <p className="totals-value">₹{totalPrice}</p>
                     </div>
                 </div>
                 <Modal open={open} onClose={onCloseModal} center>
@@ -159,7 +185,6 @@ export default function Cart() {
                 <div>
                     <button onClick={onOpenModal} className="place-order-button">Place Order</button>
                 </div>
-
             </div>
         </>
     );
