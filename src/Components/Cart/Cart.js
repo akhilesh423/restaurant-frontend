@@ -59,6 +59,7 @@ export default function Cart() {
     const handleConfirm = () => {
         console.log('Selected option:', selectedOption);
         console.log('Phone number:', phoneNumber);
+        localStorage.removeItem('cartItems');
         onCloseModal()
 
     };
