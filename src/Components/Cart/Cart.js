@@ -36,7 +36,6 @@ export default function Cart() {
     };
 
     const onCloseModal = () => {
-        console.log("Modal closed"); // Check if this message appears in the console
         setOpen(false);
     };
 
@@ -100,7 +99,7 @@ export default function Cart() {
             }
         } catch (error) {
             toast.error('Failed to place order. Please, try again!');
-            console.error('Error occurred while placing the order:', error);
+
         }
     };
 
@@ -137,7 +136,7 @@ export default function Cart() {
                 }
                 return eachItem;
             });
-            console.log(updatedCartItems);
+
             return updatedCartItems;
         });
     }
@@ -157,7 +156,7 @@ export default function Cart() {
                 return eachItem;
             }).filter(Boolean);
 
-            console.log(updatedCartItems);
+
 
             return updatedCartItems;
         });

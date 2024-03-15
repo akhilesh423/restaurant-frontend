@@ -34,7 +34,7 @@ export default function Menu() {
                 setFoodMenu(formattedData);
                 setLoading(false);
             } catch (error) {
-                console.log(error);
+
                 setLoading(false);
             }
         };
@@ -57,11 +57,11 @@ export default function Menu() {
             if (index !== -1) {
                 const updatedCartItems = [...prevCartItems];
                 updatedCartItems[index].quantity++;
-                console.log(updatedCartItems);
+
                 return updatedCartItems;
             } else {
                 const updatedCartItems = [...prevCartItems, { ...item, quantity: 1 }];
-                console.log(updatedCartItems);
+
                 return updatedCartItems;
             }
 
@@ -76,7 +76,7 @@ export default function Menu() {
                 }
                 return eachItem;
             });
-            console.log(updatedCartItems);
+
             return updatedCartItems;
         });
     }
@@ -96,7 +96,7 @@ export default function Menu() {
                 return eachItem;
             }).filter(Boolean);
 
-            console.log(updatedCartItems);
+
 
             return updatedCartItems;
         });
