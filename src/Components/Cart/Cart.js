@@ -35,7 +35,11 @@ export default function Cart() {
         setOpen(true);
     };
 
-    const onCloseModal = () => setOpen(false);
+    const onCloseModal = () => {
+        console.log("Modal closed"); // Check if this message appears in the console
+        setOpen(false);
+    };
+
 
     const navigate = useNavigate()
 
@@ -58,8 +62,17 @@ export default function Cart() {
 
 
     const handleConfirm = async () => {
-        if (!placedOrder.roomName || !placedOrder.phoneNumber) {
-            alert('Please select a room and enter a phone number.');
+
+        const trimmedPhoneNumber = placedOrder.phoneNumber.trim();
+        const phoneNumberPattern = /^\d{10}$/;
+
+        if (!phoneNumberPattern.test(trimmedPhoneNumber)) {
+            toast.error('Please enter a valid 10-digit phone number.');
+            return;
+        }
+
+        if (!placedOrder.roomName) {
+            toast.error('Please select a room.');
             return;
         }
 
@@ -216,7 +229,10 @@ export default function Cart() {
                         <p className="totals-value">₹{cartItems.reduce((total, item) => total + (item.price * item.quantity), 0)}</p>
                     </div>
                 </div>
-                <Modal open={open} onClose={onCloseModal} center>
+                <Modal classNames={{
+                    overlay: 'customOverlay',
+                    modal: 'customModal',
+                }} open={open} onClose={onCloseModal} center>
                     <form className="modal-form">
                         <div>
                             <label htmlFor="options">Select your theatre:</label>
@@ -245,7 +261,7 @@ export default function Cart() {
                 <div>
                     <button onClick={onOpenModal} className="place-order-button">Place Order</button>
                 </div>
-            </div>
+            </div >
         </>
     );
 }

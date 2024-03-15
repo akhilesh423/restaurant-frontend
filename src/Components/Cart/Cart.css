@@ -332,6 +332,22 @@
     font-size: 20px;
 }
 
+
+
+.customOverlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black background */
+}
+
+/* Custom styles for the modal */
+.customModal {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Drop shadow effect */
+}
+
 /* Cart.css */
 
 /* Container for total items and total price */
