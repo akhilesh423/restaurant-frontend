@@ -29,19 +29,19 @@ export default function CarouselPage() {
             >
                 <div>
                     <img src={bliss1} alt="Slide 1" className="carousel-image" />
-                    <p className="legend">Cupid Theatre</p>
+                    {/* <p className="legend">Cupid Theatre</p> */}
                 </div>
                 <div>
                     <img src={bliss2} alt="Slide 2" className="carousel-image" />
-                    <p className="legend">Luminous Theatre</p>
+                    {/* <p className="legend">Luminous Theatre</p> */}
                 </div>
                 <div>
                     <img src={bliss3} alt="Slide 3" className="carousel-image" />
-                    <p className="legend">Blossom Theatre</p>
+                    {/* <p className="legend">Blossom Theatre</p> */}
                 </div>
                 <div>
                     <img src={bliss4} alt="Slide 3" className="carousel-image" />
-                    <p className="legend">Tropix Theatre</p>
+                    {/* <p className="legend">Tropix Theatre</p> */}
                 </div>
             </Carousel>
 

@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import "./Menu.css";
 import { IoLocationSharp } from "react-icons/io5";
-
+import { useCart } from "../Context/cartContext.js"
 export default function Menu() {
     const [foodMenu, setFoodMenu] = useState([]);
     const [category, setCategory] = useState("All");
-    const [cartItems, setCartItems] = useState([]);
-    const [quantity, setQuantity] = useState({});
     const [loading, setLoading] = useState(true);
+    const { selectedItemId, setSelectedItemId } = useCart();
+    const { cartItems, setCartItems } = useCart();
+
 
     const navigate = useNavigate();
 
@@ -46,56 +47,67 @@ export default function Menu() {
     };
 
     const checkout = () => {
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
         navigate("/cart");
     };
 
     const handleAddToCart = (item) => {
-        const index = cartItems.findIndex(cartItem => cartItem.id === item.id);
-        if (index !== -1) {
-            const updatedCartItems = [...cartItems];
-            updatedCartItems[index].quantity += 1;
-            setCartItems(updatedCartItems);
-        } else {
-            setCartItems([...cartItems, { ...item, quantity: 1 }]);
-            setQuantity({ ...quantity, [item.id]: 1 });
-        }
-    };
+        setSelectedItemId(prevIds => [...prevIds, item.id]);
+        setCartItems(prevCartItems => {
+            const index = prevCartItems.findIndex(cartItem => cartItem.id === item.id);
+            if (index !== -1) {
+                const updatedCartItems = [...prevCartItems];
+                updatedCartItems[index].quantity++;
+                console.log(updatedCartItems);
+                return updatedCartItems;
+            } else {
+                const updatedCartItems = [...prevCartItems, { ...item, quantity: 1 }];
+                console.log(updatedCartItems);
+                return updatedCartItems;
+            }
+
+        });
+    }
 
     const handleIncrement = (id) => {
-        const newQuantity = { ...quantity };
-        newQuantity[id] = (newQuantity[id] || 0) + 1;
-        setQuantity(newQuantity);
-
-        const index = cartItems.findIndex(item => item.id === id);
-        if (index !== -1) {
-            const updatedCartItems = [...cartItems];
-            updatedCartItems[index].quantity += 1;
-            setCartItems(updatedCartItems);
-        }
-    };
+        setCartItems(prevCartItems => {
+            const updatedCartItems = prevCartItems.map(eachItem => {
+                if (eachItem.id === id) {
+                    return { ...eachItem, quantity: eachItem.quantity + 1 };
+                }
+                return eachItem;
+            });
+            console.log(updatedCartItems);
+            return updatedCartItems;
+        });
+    }
 
     const handleDecrement = (id) => {
-        const newQuantity = { ...quantity };
-        newQuantity[id] = (newQuantity[id] || 0) - 1;
-        if (newQuantity[id] < 0) {
-            newQuantity[id] = 0;
-        }
-        setQuantity(newQuantity);
+        setCartItems(prevCartItems => {
+            const updatedCartItems = prevCartItems.map(eachItem => {
+                if (eachItem.id === id) {
+                    if (eachItem.quantity > 1) {
+                        return { ...eachItem, quantity: eachItem.quantity - 1 };
+                    } else {
 
-        const index = cartItems.findIndex(item => item.id === id);
-        if (index !== -1 && cartItems[index].quantity > 0) {
-            const updatedCartItems = [...cartItems];
-            updatedCartItems[index].quantity -= 1;
-            if (updatedCartItems[index].quantity === 0) {
-                updatedCartItems.splice(index, 1);
-            }
-            setCartItems(updatedCartItems);
-        }
-    };
+                        setSelectedItemId(prevIds => prevIds.filter(itemId => itemId !== id));
+                        return null;
+                    }
+                }
+                return eachItem;
+            }).filter(Boolean);
 
-    const uniqueCategories = Array.from(new Set(foodMenu.map(item => item.category)));
-    const filteredFoodMenu = category === "All" ? foodMenu : foodMenu.filter(item => item.category === category || category === "All");
+            console.log(updatedCartItems);
+
+            return updatedCartItems;
+        });
+    }
+
+
+
+    const uniqueCategories = [...new Set(foodMenu.map(item => item.category))];
+
+    const filteredFoodMenu = category === "All" ? foodMenu : foodMenu.filter(item => item.category === category);
+
 
     return (
         <div className="menu-container">
@@ -117,16 +129,19 @@ export default function Menu() {
                             <div className="food-image-container">
                                 <img className="food-image" src={item.image} alt={item.name} />
                                 <div className="button-container">
-                                    {cartItems.some(cartItem => cartItem.id === item.id) ? (
+                                    {selectedItemId.includes(item.id) ? (
                                         <>
-                                            <button className="add-to-cart-button" onClick={() => handleDecrement(item.id)}>-</button>
-                                            <span className="quantity">{quantity[item.id]}</span>
-                                            <button className="add-to-cart-button" onClick={() => handleIncrement(item.id)}>+</button>
+                                            <button onClick={() => handleDecrement(item.id)} className="add-to-cart-button">-</button>
+                                            <span className="quantity">{cartItems.find(cartItem => cartItem.id === item.id)?.quantity || 0}</span>
+                                            <button onClick={() => handleIncrement(item.id)} className="add-to-cart-button">+</button>
                                         </>
                                     ) : (
-                                        <button className="add-to-cart-button" onClick={() => handleAddToCart(item)}>ADD</button>
+                                        <button onClick={() => handleAddToCart(item)} className="add-to-cart-button">ADD</button>
                                     )}
                                 </div>
+
+
+
                             </div>
                             <div className="food-details">
                                 <h3 className="food-name">{item.name}</h3>
