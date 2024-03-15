@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { IoIosArrowForward, IoMdArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 import { GoArrowLeft } from "react-icons/go";
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
@@ -26,7 +26,6 @@ export default function Cart() {
 
 
     const onOpenModal = () => {
-        // Update placedOrder state whenever the modal is opened
         setPlacedOrder(prevPlacedOrder => ({
             ...prevPlacedOrder,
             orders: [...cartItems],
@@ -58,6 +57,11 @@ export default function Cart() {
     };
 
 
+
+    const clearCartItems = () => {
+        setCartItems([]);
+        setSelectedItemId([])
+    };
 
 
     const handleConfirm = async () => {
@@ -92,7 +96,9 @@ export default function Cart() {
 
             if (response.ok) {
                 toast.success('Order placed successfully!');
+                onCloseModal()
                 setPlacedOrder({});
+                clearCartItems()
             } else {
                 toast.error('Failed to place order. Please, try again!');
 
