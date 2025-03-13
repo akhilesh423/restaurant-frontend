@@ -16,7 +16,7 @@ export default function Menu() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("https://bling-bliss.onrender.com/user/items");
+                const response = await fetch("https://restaurant-backend-3-jr5w.onrender.com/user/items");
                 const data = await response.json();
                 const formattedData = data.map(item => ({
                     id: item._id,
