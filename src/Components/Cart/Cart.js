@@ -86,7 +86,7 @@ export default function Cart() {
         });
 
         try {
-            const response = await fetch('https://bling-bliss.onrender.com/user/placedOrders', {
+            const response = await fetch('https://restaurant-backend-3-jr5w.onrender.com/user/placedOrders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
